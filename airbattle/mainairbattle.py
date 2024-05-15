@@ -23,10 +23,10 @@ def carica_texture(immagini = []):
     immagini[1].append(pygame.image.load("SF04a_strip60.png"))
     immagini[1].append(pygame.image.load("SF03a_strip60.png"))
 
-def Draw(aereo):
-    screen.fill(WHITE)
-    screen.blit(img_aereo, (aereoPri.x, aereoPri.y))
-    pygame.display.update()
+#def Draw(aereo):
+#    screen.fill(WHITE)
+#    screen.blit(img_aereo, (aereoPri.x, aereoPri.y))
+#    pygame.display.update()
 
 # aereo_x, aereo_y, dim_aereo_x, dim_aereo_y  = 150, 545, 100, 100
 aereo_x, aereo_y, dim_aereo_x, dim_aereo_y  = 150, 545, 14400, 240
@@ -35,6 +35,7 @@ aereo_rect = pygame.Rect(aereo_x, aereo_y, dim_aereo_x, dim_aereo_y)
 effetti_rect = pygame.Rect(proiettile_x, proiettile_y, dim_proiettile_x, dim_proiettile_y)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+sfondo = pygame.image.load("sfondo-airbattle1.jpg")
 
 pygame.display.set_caption("AIR BATTLE")
 # img_aereo = pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Navicelle\\Designs - Base\\PNGs\\Nairan - Torpedo Ship - Base.png")
@@ -47,7 +48,6 @@ img_effetti = pygame.transform.scale(img_effetti, (dim_proiettile_x, dim_proiett
 aereoPri = pygame.Rect(aereo_x, aereo_y, dim_aereo_x, dim_aereo_y)
 effettiPri = pygame.Rect(proiettile_x, proiettile_y, dim_proiettile_x, dim_proiettile_y)
 aereo = Aereo(aereo_rect, img_aereo, img_effetti, screen)
-tasto_lasciato = None
 
 
 

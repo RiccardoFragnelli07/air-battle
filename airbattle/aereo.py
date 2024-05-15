@@ -54,10 +54,10 @@ class Aereo:
         # catx = distanza_punti()
         
     def draw(self, screen, key):
-        if key[pygame.K_a]:
+        if key[pygame.K_a] and self.ind > -(len(self.jet)-1):
             self.ind -= 1
             screen.blit(self.jet[self.ind], (self.rect.x, self.rect.y))
-        elif key[pygame.K_d]:
+        elif key[pygame.K_d] and self.ind < len(self.jet)-1:
             self.ind += 1
             screen.blit(self.jet[int(self.ind)], (self.rect.x, self.rect.y))
         else:
