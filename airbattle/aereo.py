@@ -34,32 +34,35 @@ class Aereo:
             self.jet.append(img_part)
             
         
-    def move(self, key, lasc, pos):
+    def move(self, key):
         if key[pygame.K_w] and self.rect.y - VEL >= 0:
             self.rect.y -= VEL  
         if key[pygame.K_s] and self.rect.y + VEL <= HEIGHT-100:
             self.rect.y += VEL
         if key[pygame.K_a] and self.rect.x - VEL >= 0:
             self.rect.x -= VEL
+            self.ind -= 1
         if key[pygame.K_d] and self.rect.x + VEL <= WIDTH-100:
             self.rect.x += VEL
+            self.ind += 1
         if key[pygame.K_LEFT]:
             self.ind -= ROTAZIONE
-            if self.ind <= -60:
-                self.ind = 0
         if key[pygame.K_RIGHT]:
             self.ind += ROTAZIONE
-            if self.ind >= 60:
-                self.ind = 0
-        if lasc == pygame.K_RIGHT or lasc == pygame.K_LEFT:
-            self.ind = 0
-        
-            
-            
+    
         # ipo = distanza_punti(self.centro_aereo, pos)
         # catx = distanza_punti()
         
-    def draw(self, screen):
-        screen.blit(self.jet[int(self.ind)], (self.rect.x, self.rect.y))
+    def draw(self, screen, key):
+        if key[pygame.K_a]:
+            self.ind -= 1
+            screen.blit(self.jet[self.ind], (self.rect.x, self.rect.y))
+        elif key[pygame.K_d]:
+            self.ind += 1
+            screen.blit(self.jet[int(self.ind)], (self.rect.x, self.rect.y))
+        else:
+            self.ind = 0
+            screen.blit(self.jet[int(self.ind)], (self.rect.x, self.rect.y))
+        
         screen.blit(self.effetti[int(self.time) % 8], (self.rect.x, self.rect.y + 2))
         self.time += 0.2

@@ -13,15 +13,15 @@ def carica_texture(immagini = []):
     immagini.append([])
     immagini.append([])
     
-    immagini[0].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF01.png"))
-    immagini[0].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF02.png"))
-    immagini[0].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF04.png"))
-    immagini[0].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF03.png"))
+    immagini[0].append(pygame.image.load("SF01.png"))
+    immagini[0].append(pygame.image.load("SF02.png"))
+    immagini[0].append(pygame.image.load("SF04.png"))
+    immagini[0].append(pygame.image.load("SF03.png"))
     
-    immagini[1].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF01a_strip60.png"))
-    immagini[1].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF02a_strip60.png"))
-    immagini[1].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF04a_strip60.png"))
-    immagini[1].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF03a_strip60.png"))
+    immagini[1].append(pygame.image.load("SF01a_strip60.png"))
+    immagini[1].append(pygame.image.load("SF02a_strip60.png"))
+    immagini[1].append(pygame.image.load("SF04a_strip60.png"))
+    immagini[1].append(pygame.image.load("SF03a_strip60.png"))
 
 def Draw(aereo):
     screen.fill(WHITE)
@@ -36,15 +36,13 @@ effetti_rect = pygame.Rect(proiettile_x, proiettile_y, dim_proiettile_x, dim_pro
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-
-
 pygame.display.set_caption("AIR BATTLE")
 # img_aereo = pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Navicelle\\Designs - Base\\PNGs\\Nairan - Torpedo Ship - Base.png")
-img_effetti = pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Navicelle\\Engine Effects\\PNGs\\Nairan - Torpedo Ship - Engine.png")
+img_effetti = pygame.image.load("Nairan - Torpedo Ship - Engine.png")
 jet_texture = []
 carica_texture(jet_texture)
 
-img_aereo = pygame.transform.scale(jet_texture[1][2], (dim_aereo_x, dim_aereo_y))
+img_aereo = pygame.transform.scale(jet_texture[1][0], (dim_aereo_x, dim_aereo_y))
 img_effetti = pygame.transform.scale(img_effetti, (dim_proiettile_x, dim_proiettile_y))
 aereoPri = pygame.Rect(aereo_x, aereo_y, dim_aereo_x, dim_aereo_y)
 effettiPri = pygame.Rect(proiettile_x, proiettile_y, dim_proiettile_x, dim_proiettile_y)
@@ -63,16 +61,13 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-        if event.type == pygame.KEYUP:
-            tasto_lasciato = pygame.key.name(event.key)
-            print(f"tasto lasciato: {tasto_lasciato}\n")
     
     key_pressed = pygame.key.get_pressed()
-    aereo.move(key_pressed, tasto_lasciato, pygame.math.Vector2(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]))
+    aereo.move(key_pressed)
     
     
     screen.fill(WHITE)
-    aereo.draw(screen)
+    aereo.draw(screen, key_pressed)
     pygame.display.update()
     
 
