@@ -1,45 +1,60 @@
 import pygame
 import os
+from aereo import Aereo
 
 pygame.init()
 
-WIDTH, HEIGHT = 500, 690
-run = True
+WIDTH, HEIGHT = 500, 700
 WHITE = (250,250,250)
+VEL = 7
+
+
+def carica_texture(immagini = []):
+    immagini.append([])
+    immagini.append([])
+    
+    immagini[0].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF01a_strip60.png"))
+    immagini[0].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF02a_strip60.png"))
+    immagini[0].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF04a_strip60.png"))
+    immagini[0].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF03a_strip60.png"))
+    
+    immagini[1].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF01a_strip60.png"))
+    immagini[1].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF02a_strip60.png"))
+    immagini[1].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF04a_strip60.png"))
+    immagini[1].append(pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Jet\\SF03a_strip60.png"))
+
+
 aereo_x, aereo_y, dim_aereo_x, dim_aereo_y  = 150, 545, 100, 100
-proiettile_x, proiettile_y, dim_proiettile_x, dim_proiettile_y = 182, 500, 50, 50
-FPS = 60
-VEL = 5
-clock = pygame.time.Clock()
+proiettile_x, proiettile_y, dim_proiettile_x, dim_proiettile_y = 50, 50, 800, 100
+aereo_rect = pygame.Rect(aereo_x, aereo_y, dim_aereo_x, dim_aereo_y)
+effetti_rect = pygame.Rect(proiettile_x, proiettile_y, dim_proiettile_x, dim_proiettile_y)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+
+
 pygame.display.set_caption("AIR BATTLE")
-aereo = pygame.image.load("immagineAereo.png")
-proiettile = pygame.image.load("proiettile.png")
-aereo = pygame.transform.scale(aereo, (dim_aereo_x, dim_aereo_y))
-proiettile = pygame.transform.scale(proiettile, (dim_proiettile_x, dim_proiettile_y))
-aereo = pygame.transform.rotate(aereo, 278)
+img_aereo = pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Navicelle\\Designs - Base\\PNGs\\Nairan - Torpedo Ship - Base.png")
+img_effetti = pygame.image.load("C:\\Users\\Matteo\\Desktop\\Pygame\\Videogioco\\Textures\\Navicelle\\Engine Effects\\PNGs\\Nairan - Torpedo Ship - Engine.png")
+jet_texture = []
+carica_texture(jet_texture)
+
+img_aereo = pygame.transform.scale(img_aereo, (dim_aereo_x, dim_aereo_y))
+img_effetti = pygame.transform.scale(img_effetti, (dim_proiettile_x, dim_proiettile_y))
 aereoPri = pygame.Rect(aereo_x, aereo_y, dim_aereo_x, dim_aereo_y)
-proiettilePri = pygame.Rect(proiettile_x, proiettile_y, dim_proiettile_x, dim_proiettile_y)
+effettiPri = pygame.Rect(proiettile_x, proiettile_y, dim_proiettile_x, dim_proiettile_y)
+aereo = Aereo(aereo_rect, img_aereo, img_effetti, screen)
 
-def MovimentoAereo(key_pressed, aereoPri, proiettilePri):
-    if key_pressed[pygame.K_w] and aereoPri.y - VEL >= 0:
-        aereoPri.y -= VEL
-    if key_pressed[pygame.K_s] and aereoPri.y + VEL <= HEIGHT-100:
-        aereoPri.y += VEL
-    if key_pressed[pygame.K_a] and aereoPri.x - VEL >= 0:
-        aereoPri.x -= VEL
-    if key_pressed[pygame.K_d] and aereoPri.x + VEL <= WIDTH-100:
-        aereoPri.x += VEL
 
-def Draw(aereoPri, proiettilePri, spara):
+def Draw(aereo):
     screen.fill(WHITE)
-    screen.blit(aereo, (aereoPri.x, aereoPri.y))
-    if spara:
-        screen.blit(proiettile, (proiettilePri.x, proiettilePri.y))
+    screen.blit(img_aereo, (aereoPri.x, aereoPri.y))
     pygame.display.update()
 
 
+FPS = 60
+clock = pygame.time.Clock()
+run = True
 
 while run:
     spara = False
@@ -49,7 +64,12 @@ while run:
             run = False
     
     key_pressed = pygame.key.get_pressed()
-    MovimentoAereo(key_pressed, aereoPri, proiettilePri)
-    Draw(aereoPri, proiettilePri, spara)
+    aereo.move(key_pressed, pygame.math.Vector2(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]))
+    
+    
+    screen.fill(WHITE)
+    aereo.draw(screen)
+    pygame.display.update()
+    
 
 pygame.quit()
